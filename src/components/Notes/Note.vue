@@ -16,16 +16,23 @@
         >Edit</RouterLink
       >
       <a
-        @click.prevent="handleDelete"
+        @click.prevent="modals.deleteNote = true"
         href="#"
         class="card-footer-item"
         >Delete</a
       >
     </footer>
+    <ModalDeleteNote
+      v-if="modals.deleteNote"
+      v-model="modals.deleteNote"
+      :note-id="note.id"
+    />
   </div>
 </template>
 <script setup>
-import { computed } from '@vue/runtime-core';
+import { computed, reactive, ref } from '@vue/runtime-core';
+
+import ModalDeleteNote from '@/components/Notes/ModalDeleteNote.vue';
 
 const props = defineProps({
   note: {
@@ -43,7 +50,7 @@ const characterLength = computed(() => {
   return `${length} ${description}`;
 });
 
-const handleDelete = () => {
-  emit('deleteClicked', props.note.id);
-};
+const modals = reactive({
+  deleteNote: false,
+});
 </script>
