@@ -25,12 +25,14 @@
     <ModalDeleteNote
       v-if="modals.deleteNote"
       v-model="modals.deleteNote"
-      :note-id="note.id"
+      @delete="storeNotes.deleteNote(note.id)"
     />
   </div>
 </template>
 <script setup>
-import { computed, reactive, ref } from '@vue/runtime-core';
+import { computed, reactive } from 'vue';
+
+import { useStoreNotes } from '@/stores/storeNotes';
 
 import ModalDeleteNote from '@/components/Notes/ModalDeleteNote.vue';
 
@@ -41,7 +43,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['deleteClicked']);
+const storeNotes = useStoreNotes();
 
 const characterLength = computed(() => {
   const length = props.note.content.length;
